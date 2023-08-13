@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+
+    <joint name="oak-d_frame_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="oak-d_frame"/>
+        <origin xyz="0.095 0 0.095" rpy="0 0 0"/>
+    </joint>
+
+    <link name="oak-d_frame">
+    </link>
+
+</robot>
