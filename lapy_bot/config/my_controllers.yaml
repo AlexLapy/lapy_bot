@@ -1,15 +1,15 @@
 controller_manager:
   ros__parameters:
     update_rate: 50
-    use_sim_time: true
+    # use_sim_time: true
 
-    diff_cont:
+    diff_drive_controller:
       type: diff_drive_controller/DiffDriveController
 
-    joint_broad:
+    joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
 
-diff_cont:
+diff_drive_controller:
   ros__parameters:
 
     publish_rate: 50.0

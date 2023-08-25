@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+
+  <xacro:property name="lidar_height_from_top_chassis" value="0.02"/>
+
+  <xacro:property name="lidar_link_radius" value="0.03"/>
+  <xacro:property name="lidar_link_height" value="0.02"/>
+  <xacro:property name="lidar_scan_height" value="0.03"/>
+  <xacro:property name="lidar_mass" value="0.05"/>
+
+
+   <!-- Laser Position Control-->
+
+  <joint name="laser_scan_link_joint" type="prismatic">
+    <origin rpy="0 0 0" xyz="0.0 0.0 ${lidar_height_from_top_chassis + chassis_height}"/>
+    <parent link="chassis"/>
+    <child link="laser_scan_link"/>
+    <axis xyz="0 0 1"/>
+    <limit lower="-0.1" upper="0.0" effort="20.0" velocity="2.0"/>
+    <dynamics damping="0.1" friction="1.0"/>
+  </joint>
+
+  <link name="laser_scan_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 ${lidar_link_height / 2}"/>
+      <geometry>
+        <cylinder radius="${lidar_link_radius}" length="${lidar_link_height}"/>
+      </geometry>
+    </visual>
+
+    <collision>
+      <origin rpy="0 0 0" xyz="0 0 ${lidar_link_height / 2}"/>
+      <geometry>
+        <cylinder radius="${lidar_link_radius}" length="${lidar_link_height}"/>
+      </geometry>
+    </collision>
+
+    <xacro:inertial_cylinder mass="${lidar_mass}" radius="${lidar_link_radius}" length="${lidar_link_height}" >
+        <origin xyz="0 0 0" rpy="0 0 ${lidar_link_height / 2}"/>
+    </xacro:inertial_cylinder>
+  </link>
+
+  <joint name="laser_scan_frame_joint" type="fixed">
+    <origin rpy="0 0 0" xyz="0 0 ${lidar_scan_height}"/>
+    <parent link="laser_scan_link"/>
+    <child link="laser_scan_frame"/>
+    <axis xyz="0 0 0"/>
+  </joint>
+
+  <link name="laser_scan_frame">
+  </link>
+
+
+  <!-- Visual Laser Model to be rotated -->
+
+  <joint name="laser_scan_model_link_joint" type="continuous">
+    <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+    <parent link="laser_scan_link"/>
+    <child link="laser_scan_model_link"/>
+    <axis xyz="0 0 1"/>
+    <limit effort="10.0" velocity="2.0"/>
+    <dynamics friction="0.01"/>
+  </joint>
+
+  <link name="laser_scan_model_link">
+    <visual>
+      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <geometry>
+        <mesh filename="package://lapy_bot/description/meshes/sensors/rplidar.dae" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </visual>
+
+    <collision>
+       <origin rpy="0 0 0" xyz="0 0 0.0204"/>
+      <geometry>
+        <cylinder length="0.0408" radius="0.037493"/>
+      </geometry>
+    </collision>
+
+    <inertial>
+      <mass value="0.01"/>
+      <origin rpy="0 0 0" xyz="0 0 0.0204"/>
+      <inertia ixx="6.066578520833334e-06" ixy="0" ixz="0" iyy="6.072950163333333e-06" iyz="0" izz="9.365128684166666e-06"/>
+    </inertial>
+  </link>
+
+
+  <!-- Position Config -->
+
+    <ros2_control name="GazeboSystem" type="system">
+      <hardware>
+        <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+      </hardware>
+
+      <joint name="laser_scan_link_joint">
+        <command_interface name="position">
+          <param name="min">-0.05</param>
+          <param name="max">0.0</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+      <joint name="laser_scan_model_link_joint">
+        <command_interface name="velocity">
+          <param name="min">0.0</param>
+          <param name="max">2.0</param>
+        </command_interface>
+        <state_interface name="position"/>
+        <state_interface name="velocity"/>
+        <state_interface name="effort"/>
+      </joint>
+
+  </ros2_control>
+
+
+<!--    <robot_param_node>/lapy_state_publisher_node</robot_param_node>    -->
+  <!-- Laser Scan sensor 
+
+  <gazebo>
+    <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+      <parameters>$(find lapy_bot)/config/controller_lidar_velocity.yaml</parameters>
+      
+      <robot_param_node>/robot_state_publisher</robot_param_node>
+    </plugin>
+  </gazebo>
+-->
+
+  <gazebo reference="laser_scan_frame">
+    <material>Gazebo/Red</material>
+    <sensor name="sensor_ray" type="ray">
+        <pose>0 0 0 0 0 0</pose>
+        <ray>
+          <scan>
+            <horizontal>
+              <samples>360</samples>
+              <resolution>1.0</resolution>
+              <min_angle>-3.14</min_angle>
+              <max_angle>3.14</max_angle>
+            </horizontal>
+          </scan>
+          <range>
+            <min>0.3</min>
+            <max>12.0</max>
+          </range>
+        </ray>
+        <always_on>true</always_on>
+        <visualize>true</visualize>
+        <update_rate>100.0</update_rate>
+        <plugin name="laser" filename="libgazebo_ros_ray_sensor.so">
+          <ros>
+            <namespace>/lapy_bot</namespace>
+            <remapping>~/out:=laser_scan</remapping>
+          </ros>
+          <output_type>sensor_msgs/LaserScan</output_type>
+        </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

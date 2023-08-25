@@ -7,26 +7,29 @@ from launch.substitutions import LaunchConfiguration, Command
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
 
-import xacro
-
 
 def generate_launch_description():
 
-    # Check if we're told to use sim time
+    ####### DATA INPUT ##########
+    xacro_file = "robot.urdf.xacro"
+    package_description = "lapy_bot"
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_ros2_control = LaunchConfiguration('use_ros2_control')
 
-    # Process the URDF file
-    pkg_path = os.path.join(get_package_share_directory('lapy_bot'))
-    xacro_file = os.path.join(pkg_path,'description','urdf','robot.urdf.xacro')
+    ####### DATA INPUT END ##########
+    print("Fetching URDF ==>")
+    pkg_path = os.path.join(get_package_share_directory(package_description))
+    xacro_file = os.path.join(pkg_path, 'description', 'urdf', xacro_file)
     # Pass the ros2_control arg to the xacro builder
     robot_description_config = Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     
+
     # Create a robot_state_publisher node
     params = {'robot_description': robot_description_config, 'use_sim_time': use_sim_time}
     node_robot_state_publisher = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
+       # name='lapy_state_publisher_node',
         output='screen',
         parameters=[params]
     )
