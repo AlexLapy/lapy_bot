@@ -46,23 +46,12 @@ def generate_launch_description():
 
 
     if use_ros2_control:
-        diff_drive_spawner = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["diff_drive_controller", "-c", "/controller_manager"],
-        )
-
-        delayed_diff_drive_spawner = RegisterEventHandler(
-            event_handler=OnProcessExit(
-                    target_action=spawn_entity,
-                    on_exit=[diff_drive_spawner],
-            )
-        )
 
         joint_broad_spawner = Node(
             package="controller_manager",
             executable="spawner",
-            arguments=["joint_state_broadcaster", "-c", "/controller_manager"],
+            arguments=["joint_state_broadcaster",
+                       "--controller-manager", "/controller_manager"],
         )
 
         delayed_joint_broad_spawner = RegisterEventHandler(
@@ -72,7 +61,21 @@ def generate_launch_description():
             )
         )
 
-    
+        diff_drive_spawner = Node(
+            package="controller_manager",
+            executable="spawner",
+            arguments=["diff_drive_controller",
+                       "--controller-manager", "/controller_manager"],
+        )
+
+        delayed_diff_drive_spawner = RegisterEventHandler(
+            event_handler=OnProcessExit(
+                    target_action=joint_broad_spawner,
+                    on_exit=[diff_drive_spawner],
+            )
+        )
+
+        
     if use_ros2_control:
         return LaunchDescription([
             DeclareLaunchArgument(
