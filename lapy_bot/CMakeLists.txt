@@ -38,6 +38,7 @@ install(
     description
     launch
     worlds
+    maps
   DESTINATION 
     share/${PROJECT_NAME}
 )

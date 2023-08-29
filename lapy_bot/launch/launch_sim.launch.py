@@ -19,16 +19,28 @@ def generate_launch_description():
 
     package_name='lapy_bot'
 
-    use_ros2_control = LaunchConfiguration('use_ros2_control')
-
     rsp = IncludeLaunchDescription(
-                PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory(package_name),'launch','rsp.launch.py'
-                )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': use_ros2_control}.items()
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory(package_name),'launch','rsp.launch.py'
+        )]), launch_arguments={'use_sim_time': 'true', 'use_ros2_control': 'true'}.items()
     )
 
+    joystick = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory(package_name),'launch','joystick.launch.py'
+        )]), launch_arguments={'use_sim_time': 'true'}.items()
+    )
+
+    twist_mux_params = os.path.join(get_package_share_directory(package_name),'config','twist_mux.yaml')
+    twist_mux = Node(
+        package="twist_mux",
+        executable="twist_mux",
+        parameters=[twist_mux_params, {'use_sim_time': True}],
+        remappings=[('/cmd_vel_out','/diff_drive_controller/cmd_vel_unstamped')]
+    )
+    
     gazebo_params_file = os.path.join(get_package_share_directory(package_name),'config','gazebo_params.yaml')
-    gazebo_world_file = os.path.join(get_package_share_directory(package_name),'worlds','obstacles.world')
+    gazebo_world_file = os.path.join(get_package_share_directory(package_name),'worlds','tb3.world')
 
     # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(
@@ -45,56 +57,41 @@ def generate_launch_description():
                         output='screen')
 
 
-    if use_ros2_control:
+    # Controllers
+    joint_broad_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["joint_state_broadcaster",
+                    "--controller-manager", "/controller_manager"],
+    )
 
-        joint_broad_spawner = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["joint_state_broadcaster",
-                       "--controller-manager", "/controller_manager"],
+    delayed_joint_broad_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+                target_action=spawn_entity,
+                on_exit=[joint_broad_spawner],
         )
+    )
 
-        delayed_joint_broad_spawner = RegisterEventHandler(
-            event_handler=OnProcessExit(
-                    target_action=spawn_entity,
-                    on_exit=[joint_broad_spawner],
-            )
+    diff_drive_spawner = Node(
+        package="controller_manager",
+        executable="spawner",
+        arguments=["diff_drive_controller",
+                    "--controller-manager", "/controller_manager"],
+    )
+
+    delayed_diff_drive_spawner = RegisterEventHandler(
+        event_handler=OnProcessExit(
+                target_action=joint_broad_spawner,
+                on_exit=[diff_drive_spawner],
         )
+    )
 
-        diff_drive_spawner = Node(
-            package="controller_manager",
-            executable="spawner",
-            arguments=["diff_drive_controller",
-                       "--controller-manager", "/controller_manager"],
-        )
-
-        delayed_diff_drive_spawner = RegisterEventHandler(
-            event_handler=OnProcessExit(
-                    target_action=joint_broad_spawner,
-                    on_exit=[diff_drive_spawner],
-            )
-        )
-
-        
-    if use_ros2_control:
-        return LaunchDescription([
-            DeclareLaunchArgument(
-                'use_ros2_control',
-                default_value='true',
-                description='Use ros2_control if true'),
-            rsp,
-            gazebo,
-            spawn_entity,
-            delayed_diff_drive_spawner,
-            delayed_joint_broad_spawner
-        ])
-    else: 
-        return LaunchDescription([
-            DeclareLaunchArgument(
-                'use_ros2_control',
-                default_value='false',
-                description='Use ros2_control if true'),
-            rsp,
-            gazebo,
-            spawn_entity,
-        ])
+    return LaunchDescription([
+        rsp,
+        joystick,
+        twist_mux,
+        gazebo,
+        spawn_entity,
+        delayed_joint_broad_spawner,
+        delayed_diff_drive_spawner,
+    ])
