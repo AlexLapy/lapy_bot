@@ -8,4 +8,7 @@ https://github.com/joshnewans/ros_arduino_bridge \
 https://github.com/joshnewans/diffdrive_arduino.git \
 https://github.com/joshnewans/serial.git 
 ## IMU
+-- 9 DOF --
+https://github.com/flynneva/bno055.git
+-- 6 DOF --
 https://github.com/hiwad-aziz/ros2_mpu6050_driver.git
