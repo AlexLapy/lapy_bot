@@ -7,16 +7,16 @@ joy_node:
 teleop_node:
   ros__parameters:
     axis_linear:
-      x: 1
+      x: 1  # See joy_layout for value -- current = Up/Down Axis stick left
     scale_linear:
-      x: 0.5
+      x: 0.3
     scale_linear_turbo:
       x: 1.0
 
     axis_angular:
-      yaw: 0
+      yaw: 3  # See joy_layout for value -- current = Left/Rigth Axis stick right
     scale_angular:
-      yaw: 0.5
+      yaw: 0.6
     scale_angular_turbo:
       yaw: 1.0
 
