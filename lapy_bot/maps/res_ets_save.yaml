@@ -1,4 +1,4 @@
-image: res_ets_save.pgm
+image: /home/alexlapy/robot_ws/install/lapy_bot/share/lapy_bot/maps/res_ets_save.pgm
 mode: trinary
 resolution: 0.05
 origin: [-4.44, -4.39, 0]

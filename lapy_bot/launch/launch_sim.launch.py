@@ -40,7 +40,7 @@ def generate_launch_description():
     )
     
     gazebo_params_file = os.path.join(get_package_share_directory(package_name),'config','gazebo_params.yaml')
-    gazebo_world_file = os.path.join(get_package_share_directory(package_name),'worlds','tb3.world')
+    gazebo_world_file = os.path.join(get_package_share_directory(package_name),'worlds','obstacles.world')
 
     # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(

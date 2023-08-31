@@ -3,11 +3,11 @@ controller_manager:
     update_rate: 20  # Hz
     # use_sim_time: true
 
-    diff_drive_controller:
-      type: diff_drive_controller/DiffDriveController
-
     joint_state_broadcaster:
       type: joint_state_broadcaster/JointStateBroadcaster
+
+    diff_drive_controller:
+      type: diff_drive_controller/DiffDriveController
 
 diff_drive_controller:
   ros__parameters:
@@ -19,7 +19,7 @@ diff_drive_controller:
     left_wheel_names: ['left_wheel_joint']
     right_wheel_names: ['right_wheel_joint']
     wheel_separation: 0.23
-    wheel_radius: 0.0325
+    wheel_radius: 0.035  # 0.0325 without tape 
 
     use_stamped_vel: false
 
