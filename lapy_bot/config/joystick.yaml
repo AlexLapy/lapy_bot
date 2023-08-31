@@ -11,14 +11,14 @@ teleop_node:
     scale_linear:
       x: 0.3
     scale_linear_turbo:
-      x: 1.0
+      x: 0.5
 
     axis_angular:
       yaw: 3  # See joy_layout for value -- current = Left/Rigth Axis stick right
     scale_angular:
-      yaw: 0.6
+      yaw: 0.8
     scale_angular_turbo:
-      yaw: 1.0
+      yaw: 1.2
 
     
     enable_button: 4
