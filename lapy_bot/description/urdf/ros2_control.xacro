@@ -13,6 +13,10 @@
                 <param name="timeout_ms">1000</param>
                 <param name="lw_enc_counts_per_rev">3500</param>
                 <param name="rw_enc_counts_per_rev">3500</param>
+                <param name="pid_p">30</param>
+                <param name="pid_i">20</param>
+                <param name="pid_d">0</param>
+                <param name="pid_o">100</param>
             </hardware>
             <joint name="left_wheel_joint">
                 <command_interface name="velocity">
