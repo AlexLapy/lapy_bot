@@ -24,7 +24,7 @@ def generate_launch_description():
     
 
     # Robot State Publisher
-    robot_state_publisher_node = Node(
+    rsp_node = Node(
         package='robot_state_publisher',
         executable='robot_state_publisher',
         name='lapy_state_publisher_node',
@@ -44,6 +44,11 @@ def generate_launch_description():
             name='rviz_node',
             parameters=[{'use_sim_time': use_sim_time}],
             arguments=['-d', rviz_config_dir])
+    
+    jsp_node = Node(
+            package='joint_state_publisher',
+            executable='joint_state_publisher',
+            output='screen')
 
 
     # create and return launch description object
@@ -57,6 +62,7 @@ def generate_launch_description():
                 default_value='true',
                 description='Use ros2_control if true'),
 
-            robot_state_publisher_node,
-            rviz_node
+            rsp_node,
+            rviz_node,
+            jsp_node,
         ])

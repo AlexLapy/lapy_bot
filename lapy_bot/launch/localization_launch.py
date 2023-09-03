@@ -64,7 +64,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(bringup_dir, 'maps', 'tb3.yaml'),
+            default_value=os.path.join(bringup_dir, 'maps', 'res_ets_save.yaml'),
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(

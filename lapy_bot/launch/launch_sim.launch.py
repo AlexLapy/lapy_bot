@@ -40,7 +40,7 @@ def generate_launch_description():
     )
     
     gazebo_params_file = os.path.join(get_package_share_directory(package_name),'config','gazebo_params.yaml')
-    gazebo_world_file = os.path.join(get_package_share_directory(package_name),'worlds','obstacles.world')
+    gazebo_world_file = os.path.join(get_package_share_directory(package_name),'worlds','tb3.world')
 
     # Include the Gazebo launch file, provided by the gazebo_ros package
     gazebo = IncludeLaunchDescription(
@@ -53,7 +53,9 @@ def generate_launch_description():
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
     spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
                         arguments=['-topic', 'robot_description',
-                                   '-entity', 'lapyBot'],
+                                   '-entity', 'lapyBot',
+                                   '-x', '0.5',
+                                   '-y', '0.5' ],
                         output='screen')
 
 
