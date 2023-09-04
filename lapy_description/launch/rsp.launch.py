@@ -12,14 +12,14 @@ def generate_launch_description():
 
     ####### DATA INPUT ##########
     xacro_file = "robot.urdf.xacro"
-    package_description = "lapy_bot"
+    package_description = "lapy_description"
     use_sim_time = LaunchConfiguration('use_sim_time')
     use_ros2_control = LaunchConfiguration('use_ros2_control')
 
     ####### DATA INPUT END ##########
     print("Fetching URDF ==>")
     pkg_path = os.path.join(get_package_share_directory(package_description))
-    xacro_file = os.path.join(pkg_path, 'description', 'urdf', xacro_file)
+    xacro_file = os.path.join(pkg_path, 'urdf', xacro_file)
     # Pass the ros2_control arg to the xacro builder
     robot_description_config = Command(['xacro ', xacro_file, ' use_ros2_control:=', use_ros2_control, ' sim_mode:=', use_sim_time])
     

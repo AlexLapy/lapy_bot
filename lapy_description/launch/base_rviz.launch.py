@@ -10,7 +10,7 @@ from launch_ros.actions import Node
 def generate_launch_description():
 
     ####### DATA INPUT ##########
-    package_description = "lapy_bot"
+    package_description = "lapy_description"
     use_sim_time = LaunchConfiguration('use_sim_time')
 
 
