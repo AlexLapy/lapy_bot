@@ -12,7 +12,7 @@ def generate_launch_description():
     package_name='lapy_bot'
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    joy_params = os.path.join(get_package_share_directory(package_name), 'config', 'joystick.yaml')
+    joy_params = os.path.join(get_package_share_directory(package_name), 'config', 'joystick_wireless.yaml')
 
     joy_node = Node(
         package='joy',
