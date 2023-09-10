@@ -25,7 +25,8 @@ from nav2_common.launch import RewrittenYaml
 
 def generate_launch_description():
     # Get the launch directory
-    bringup_dir = get_package_share_directory('lapy_bot')
+    package_bringup = get_package_share_directory('lapy_bot')
+    package_mapper = get_package_share_directory('lapy_mapper')
 
     namespace = LaunchConfiguration('namespace')
     map_yaml_file = LaunchConfiguration('map')
@@ -64,7 +65,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'map',
-            default_value=os.path.join(bringup_dir, 'maps', 'res_ets_save.yaml'),
+            default_value=os.path.join(package_mapper, 'maps', 'tb3_carto.yaml'),
             description='Full path to map yaml file to load'),
 
         DeclareLaunchArgument(
@@ -77,7 +78,7 @@ def generate_launch_description():
 
         DeclareLaunchArgument(
             'params_file',
-            default_value=os.path.join(bringup_dir, 'config', 'nav2_params.yaml'),
+            default_value=os.path.join(package_bringup, 'config', 'nav2_params.yaml'),
             description='Full path to the ROS2 parameters file to use'),
 
         Node(
