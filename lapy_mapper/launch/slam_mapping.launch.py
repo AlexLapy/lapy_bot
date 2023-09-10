@@ -9,7 +9,7 @@ from launch.actions import IncludeLaunchDescription
 
 def generate_launch_description():
 
-    package_description = "lapy_bot"
+    package_description = "lapy_bringup"
     use_sim_time = LaunchConfiguration('use_sim_time')
 
     slam_config_file = os.path.join(get_package_share_directory(package_description),

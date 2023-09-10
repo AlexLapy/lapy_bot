@@ -44,16 +44,16 @@
             </hardware>
             <joint name="left_wheel_joint">
                 <command_interface name="velocity">
-                    <param name="min">-0.5</param>
-                    <param name="max">0.5</param>
+                    <param name="min">-1.0</param>
+                    <param name="max">1.0</param>
                 </command_interface>
                 <state_interface name="velocity"/>
                 <state_interface name="position"/>
             </joint>
             <joint name="right_wheel_joint">
                 <command_interface name="velocity">
-                    <param name="min">-0.5</param>
-                    <param name="max">0.5</param>
+                    <param name="min">-1.0</param>
+                    <param name="max">1.0</param>
                 </command_interface>
                 <state_interface name="velocity"/>
                 <state_interface name="position"/>
@@ -67,8 +67,8 @@
             Need to Test what this does !
             <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>  
         -->
-            <parameters>$(find lapy_bot)/config/my_controllers.yaml</parameters>
-            <parameters>$(find lapy_bot)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
+            <parameters>$(find lapy_control)/config/controllers_diff_drive.yaml</parameters>
+            <parameters>$(find lapy_bringup)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
         </plugin>
     </gazebo>
 

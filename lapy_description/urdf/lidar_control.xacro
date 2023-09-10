@@ -121,7 +121,7 @@
 
   <gazebo>
     <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-      <parameters>$(find lapy_bot)/config/controller_lidar_velocity.yaml</parameters>
+      <parameters>$(find lapy_bringup)/config/controllers_lidar_velocity.yaml</parameters>
       
       <robot_param_node>/robot_state_publisher</robot_param_node>
     </plugin>
