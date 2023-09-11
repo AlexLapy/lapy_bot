@@ -25,8 +25,12 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'go_to_pose = nav2_project.go_to_pose:main',
-            'spot_recorder = nav2_project.spot_recorder:main',
+            'clicked_point_sub = lapy_navigation.clicked_point_sub:main',
+            'initial_pose_pub = lapy_navigation.initial_pose_pub:main',
+            'set_param = lapy_navigation.set_param:main',
+            'go_to_pose = lapy_navigation.go_to_pose:main',
+            'spot_recorder_sub = lapy_navigation.spot_recorder_sub:main',
+            'spot_recorder_srv = lapy_navigation.spot_recorder_srv:main',
         ],
     },
 )
