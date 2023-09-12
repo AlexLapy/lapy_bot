@@ -5,6 +5,8 @@ import rclpy
 from rclpy.action import ActionClient
 from rclpy.node import Node
 
+from rcl_interfaces.msg import ParameterDescriptor
+
 
 class NavToPoseActionClient(Node):
 
@@ -17,12 +19,16 @@ class NavToPoseActionClient(Node):
 
     def send_goal(self):
 
+        param_descriptor = ParameterDescriptor(
+            description='Lists of spot.')
+        self.declare_parameter('spot_name', rclpy.Parameter.Type.STRING, param_descriptor)
+
         recived_spot_name = (self.get_parameter_or('spot_name'))
         param = str(recived_spot_name.value)
         
         print(param+'.x')
 
-        posex = (self.get_parameter_or(param+'.x'))
+        posex = (self.get_parameter(param+'.x'))
         posey = (self.get_parameter_or(param+'.y'))
         posez = (self.get_parameter_or(param+'.z'))
 
@@ -31,6 +37,16 @@ class NavToPoseActionClient(Node):
         poseoz = (self.get_parameter_or(param+'.oz'))
         poseow = (self.get_parameter_or(param+'.ow'))
 
+        # self.declare_parameters(
+        #     namespace='',
+        #     parameters=[
+        #         ('spot_kitchen', None),
+        #         ('spot_door', None),
+        #         ('spot_r_bed', None),
+        #         ('spot_front_bed', None),
+        #         ('spot_start', None),
+        #     ])
+        
         goal_pose = NavigateToPose.Goal()
         goal_pose.pose.header.frame_id = 'map'
         goal_pose.pose.pose.position.x = posex.value

@@ -15,8 +15,8 @@ def generate_launch_description():
     package_navigation = get_package_share_directory('lapy_navigation')
     package_mapper = get_package_share_directory('lapy_mapper')
 
-    #map_choice = 'res_ets_save.yaml'
-    map_choice = 'tb3_carto.yaml'
+    map_choice = 'res_ets_save.yaml'
+    #map_choice = 'tb3_carto.yaml'
 
     namespace = LaunchConfiguration('namespace')
     map_yaml_file = LaunchConfiguration('map')

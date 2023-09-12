@@ -15,7 +15,7 @@ class Subscriber(Node):
         self.get_logger().info('Recieved Data:\n X : %f \n Y : %f \n Z : %f %f' % (msg.pose.pose.orientation.x, msg.pose.pose.orientation.y, msg.pose.pose.orientation.z, msg.pose.pose.orientation.w))
       
         
-        f = open("spot-list.yaml", "a+")
+        f = open("spot_list.yaml", "a+")
         f.write("\n    spot_:")
         f.write("\n       x : ")
         f.write(str(msg.pose.pose.position.x))

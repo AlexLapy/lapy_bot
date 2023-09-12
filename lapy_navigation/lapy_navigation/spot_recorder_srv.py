@@ -7,7 +7,10 @@ from geometry_msgs.msg import PoseWithCovarianceStamped
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
 
+from rclpy.qos import ReliabilityPolicy, QoSProfile, DurabilityPolicy
+
 import yaml
+
 
 class RecordServer(Node):
 
@@ -21,7 +24,7 @@ class RecordServer(Node):
             PoseWithCovarianceStamped,
             'amcl_pose',
             self.pose_callback,
-            1,
+            QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL),
             callback_group=self.group1
         )
         
@@ -56,26 +59,27 @@ class RecordServer(Node):
 
     def srv_callback(self, request, response):
         
-        f = open("spot-list.yaml", "a+")
-        f.write(f"\n    spot_{request.label}:")
-        f.write("\n       x : ")
-        f.write(str(self.pos_x))
-        f.write("\n       y : ")
-        f.write(str(self.pos_y))
-        f.write("\n       z : ")
-        f.write(str(self.pos_z))
-        f.write("\n       ox : ")
-        f.write(str(self.ori_x))
-        f.write("\n       oy : ")
-        f.write(str(self.ori_y))
-        f.write("\n       oz : ")
-        f.write(str(self.ori_z))
-        f.write("\n       ow : ")
-        f.write(str(self.ori_w))
-        f.close()
+        # TODO ADD PACKAGES PATH with rclpy func
+        with open("/home/alexlapy/robot_ws/src/lapy_robotics_ros2/lapy_navigation/config/spot_list.yaml", "a+") as f:
+            f.write(f"\n    spot_{request.label}:")
+            f.write("\n       x : ")
+            f.write(str(self.pos_x))
+            f.write("\n       y : ")
+            f.write(str(self.pos_y))
+            f.write("\n       z : ")
+            f.write(str(self.pos_z))
+            f.write("\n       ox : ")
+            f.write(str(self.ori_x))
+            f.write("\n       oy : ")
+            f.write(str(self.ori_y))
+            f.write("\n       oz : ")
+            f.write(str(self.ori_z))
+            f.write("\n       ow : ")
+            f.write(str(self.ori_w))
+        
 
         response.navigation_successfull = True
-        response.message = f"Added spot_{request.label} to spot-list.yaml"
+        response.message = f"Added spot_{request.label} to spot_list.yaml"
         return response
 
 def main(args=None):
@@ -88,6 +92,8 @@ def main(args=None):
 
     try:
         executor.spin()
+    except KeyboardInterrupt:
+        pass
     finally:
         executor.shutdown()
         record_server.destroy_node()

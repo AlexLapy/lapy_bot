@@ -5,6 +5,7 @@ from launch import LaunchDescription
 from launch.substitutions import LaunchConfiguration
 from launch.actions import DeclareLaunchArgument
 from launch_ros.actions import Node
+import launch
 
 # this is the function launch  system will look for
 def generate_launch_description():
@@ -16,6 +17,10 @@ def generate_launch_description():
 
     # RVIZ Configuration
     rviz_config_file = os.path.join(get_package_share_directory(package_description), 'config', 'view_bot.rviz')
+
+    # This is to publish messages inside Launch files.
+    message_info = launch.actions.LogInfo(
+        msg=str(rviz_config_file))
 
     rviz_node = Node(
             package='rviz2',
@@ -31,5 +36,6 @@ def generate_launch_description():
                 'use_sim_time',
                 default_value='false',
                 description='Use sim time if true'),
-            rviz_node
+            rviz_node,
+            message_info,
         ])
