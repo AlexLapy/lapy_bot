@@ -12,7 +12,7 @@ def generate_launch_description():
     package_control='lapy_control'
     use_sim_time = LaunchConfiguration('use_sim_time')
 
-    joy_params = os.path.join(get_package_share_directory(package_control), 'config', 'joystick_8bitdo.yaml')
+    joy_params = os.path.join(get_package_share_directory(package_control), 'config', 'joystick.yaml')
 
     joy_node = Node(
         package='joy',
