@@ -16,8 +16,9 @@ from launch_ros.actions import Node
 
 def generate_launch_description():
 
-    package_control='lapy_control'
-    package_description='lapy_description'
+    package_bringup = 'lapy_bringup'
+    package_control = 'lapy_control'
+    package_description = 'lapy_description'
 
 
     rsp = IncludeLaunchDescription(
@@ -30,7 +31,7 @@ def generate_launch_description():
 
     joystick = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
-                    get_package_share_directory(package_control),'launch','joystick.launch.py'
+                    get_package_share_directory(package_bringup),'launch','joystick.launch.py'
                 )])
     )
 
