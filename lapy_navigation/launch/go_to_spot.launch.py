@@ -24,7 +24,7 @@ def generate_launch_description():
         ),
             
         Node(
-            package = 'nav2_project',
+            package = 'lapy_navigation',
             name = 'move_to_spot',
             node_executable = 'go_to_pose',
             parameters = [
