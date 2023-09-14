@@ -43,6 +43,12 @@ def generate_launch_description():
         remappings=[('/cmd_vel_out','/diff_drive_controller/cmd_vel_unstamped')]
     )
 
+    lidar = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(
+            get_package_share_directory(package_description), 'launch', 'rplidar.launch.py'
+        )])
+    )
+
     # TODO TEST if error occur because rsp is not launch yet eand everything has to be in LaunchDescription
     # with this line after rsp
     robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
@@ -90,6 +96,7 @@ def generate_launch_description():
         rsp,
         joystick,
         twist_mux,
+        lidar,
         delayed_controller_manager,
         delayed_diff_drive_spawner,
         delayed_joint_broad_spawner

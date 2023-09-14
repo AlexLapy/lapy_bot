@@ -61,7 +61,7 @@ class RecordServer(Node):
         
         # TODO ADD PACKAGES PATH with rclpy func
         with open("/home/alexlapy/robot_ws/src/lapy_robotics_ros2/lapy_navigation/config/spot_list.yaml", "a+") as f:
-            f.write(f"\n    spot_{request.label}:")
+            f.write(f"\n    {request.label}:")
             f.write("\n       x : ")
             f.write(str(self.pos_x))
             f.write("\n       y : ")

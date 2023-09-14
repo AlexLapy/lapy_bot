@@ -13,22 +13,13 @@ def generate_launch_description():
 
     config = os.path.join(get_package_share_directory(package_navigation),'config','spot_list.yaml')
 
-    spot_name = LaunchConfiguration('spot_name')
-    
     return LaunchDescription([ 
-    
-        DeclareLaunchArgument(
-            'spot_name',
-            default_value='start',
-            description='Spot name, see config/spot_list.yaml'
-        ),
             
         Node(
             package = package_navigation,
-            executable = 'go_to_pose',
-            name = 'move_to_spot',
+            executable = 'go_to_pose_from_joy',
+            name = 'move_to_spot_from_joy',
             parameters = [
-                {'spot_name':spot_name},
                 {'use_sim_time': False},
                 config
             ],

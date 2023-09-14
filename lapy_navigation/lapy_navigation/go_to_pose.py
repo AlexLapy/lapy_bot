@@ -15,20 +15,23 @@ class NavToPoseActionClient(Node):
                          allow_undeclared_parameters=True,
                          automatically_declare_parameters_from_overrides=True)
 
-        self._action_client = ActionClient(self, NavigateToPose, 'NavigateToPose')
+        self._action_client = ActionClient(self, NavigateToPose, 'navigate_to_pose')
 
     def send_goal(self):
 
-        param_descriptor = ParameterDescriptor(
-            description='Lists of spot.')
-        self.declare_parameter('spot_name', rclpy.Parameter.Type.STRING, param_descriptor)
+        # rclpy.exceptions.ParameterAlreadyDeclaredException: ('Parameter(s) already declared', ['spot_name'])
+        # TODO maybe bc its declared in launch?
+        #  
+        #param_descriptor = ParameterDescriptor(
+        #    description='Lists of spot.')
+        #self.declare_parameter('spot_name', rclpy.Parameter.Type.STRING, param_descriptor)
 
-        recived_spot_name = (self.get_parameter_or('spot_name'))
+        recived_spot_name = self.get_parameter_or('spot_name')
         param = str(recived_spot_name.value)
-        
-        print(param+'.x')
 
-        posex = (self.get_parameter(param+'.x'))
+        # TODO Add a check if x,y,z... are float otherwise clean exit
+
+        posex = (self.get_parameter_or(param+'.x'))
         posey = (self.get_parameter_or(param+'.y'))
         posez = (self.get_parameter_or(param+'.z'))
 
@@ -37,16 +40,6 @@ class NavToPoseActionClient(Node):
         poseoz = (self.get_parameter_or(param+'.oz'))
         poseow = (self.get_parameter_or(param+'.ow'))
 
-        # self.declare_parameters(
-        #     namespace='',
-        #     parameters=[
-        #         ('spot_kitchen', None),
-        #         ('spot_door', None),
-        #         ('spot_r_bed', None),
-        #         ('spot_front_bed', None),
-        #         ('spot_start', None),
-        #     ])
-        
         goal_pose = NavigateToPose.Goal()
         goal_pose.pose.header.frame_id = 'map'
         goal_pose.pose.pose.position.x = posex.value
