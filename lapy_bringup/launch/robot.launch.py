@@ -49,8 +49,6 @@ def generate_launch_description():
         )])
     )
 
-    # TODO TEST if error occur because rsp is not launch yet eand everything has to be in LaunchDescription
-    # with this line after rsp
     robot_description = Command(['ros2 param get --hide-type /robot_state_publisher robot_description'])
 
     controller_params_file = os.path.join(get_package_share_directory(package_control),'config','controllers_diff_drive.yaml')

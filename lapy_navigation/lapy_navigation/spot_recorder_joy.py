@@ -1,6 +1,8 @@
 import rclpy
 from rclpy.node import Node
 
+from ament_index_python.packages import get_package_share_directory
+
 from sensor_msgs.msg import Joy
 from geometry_msgs.msg import PoseWithCovarianceStamped
 
@@ -8,6 +10,13 @@ from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import MutuallyExclusiveCallbackGroup, ReentrantCallbackGroup
 
 from rclpy.qos import ReliabilityPolicy, QoSProfile, DurabilityPolicy
+
+import time
+import os
+
+package_name = 'lapy_navigation'
+package_path = get_package_share_directory(package_name)
+spot_list_path = os.path.join(package_path, 'config', 'spot_list.yaml')
 
 
 class RecordSpotFromJoy(Node):
@@ -34,7 +43,7 @@ class RecordSpotFromJoy(Node):
             'amcl_pose',
             self.pose_callback,
             QoSProfile(depth=10, reliability=ReliabilityPolicy.RELIABLE, durability=DurabilityPolicy.TRANSIENT_LOCAL),
-            callback_group=self.group_amcl
+            callback_group=self.group_joy
         )
 
         self.amcl_sub  # prevent unused variable warning
@@ -57,8 +66,7 @@ class RecordSpotFromJoy(Node):
 
         if START:
             if hasattr(self, "pos_x"):
-                # TODO ADD PACKAGES PATH with rclpy func
-                with open("/home/alexlapy/robot_ws/src/lapy_robotics_ros2/lapy_navigation/config/spot_list.yaml", "a+") as f:
+                with open(spot_list_path, "a+") as f:
                     f.write(f"\n    spot_{self.spot_count}:")
                     f.write("\n       x : ")
                     f.write(str(self.pos_x))
@@ -77,6 +85,7 @@ class RecordSpotFromJoy(Node):
 
                 self.get_logger().info(f"Added spot_{self.spot_count} to spot_list.yaml")
                 self.spot_count += 1
+                time.sleep(1)
 
 
 def main(args=None):
@@ -84,7 +93,7 @@ def main(args=None):
     rclpy.init(args=args)
     record_spot_from_joy = RecordSpotFromJoy()
 
-    executor = MultiThreadedExecutor(num_threads=2)
+    executor = MultiThreadedExecutor(num_threads=1)
     executor.add_node(record_spot_from_joy)
 
     try:

@@ -63,10 +63,7 @@
 
     <gazebo>
         <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-        <!--
-            Need to Test what this does !
             <robot_sim_type>gazebo_ros2_control/GazeboSystem</robot_sim_type>  
-        -->
             <parameters>$(find lapy_control)/config/controllers_diff_drive.yaml</parameters>
             <parameters>$(find lapy_bringup)/config/gaz_ros2_ctl_use_sim.yaml</parameters>
         </plugin>

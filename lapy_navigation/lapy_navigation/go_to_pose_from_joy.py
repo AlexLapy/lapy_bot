@@ -112,6 +112,12 @@ class JoyToPoseActionClient(Node):
     def feedback_callback(self, feedback_msg):
         feedback = feedback_msg.feedback
 
+        self.get_logger().info(f"Current pose = {feedback.current_pose}")
+        self.get_logger().info(f"Navigation time = {feedback.navigation_time}")
+        self.get_logger().info(f"Estimated time remaining = {feedback.estimated_time_remaining}")
+        self.get_logger().info(f"Number of recoveries = {feedback.number_of_recoveries}")
+        self.get_logger().info(f"Distance remaining = {feedback.distance_remaining}")
+
 def main(args=None):
     rclpy.init(args=args)
 
