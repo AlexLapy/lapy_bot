@@ -167,7 +167,7 @@
       <visual>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>          
-          <cylinder length="0.001" radius="0.0045000000000000005"/>
+          <sphere radius="${caster_wheel_radius}"/>
         </geometry>
         <material name="white"/>
       </visual>
@@ -175,7 +175,7 @@
       <collision>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.001" radius="0.0045000000000000005"/>
+          <sphere radius="${caster_wheel_radius}"/>
         </geometry>
       </collision>
 
@@ -200,7 +200,7 @@
       <visual>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.001" radius="0.0045000000000000005"/>
+          <sphere radius="${caster_wheel_radius}"/>
         </geometry>
         <material name="white"/>
       </visual>
@@ -208,7 +208,7 @@
       <collision>
         <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
         <geometry>
-          <cylinder length="0.001" radius="0.0045000000000000005"/>
+          <sphere radius="${caster_wheel_radius}"/>
         </geometry>
       </collision>
 
@@ -233,7 +233,7 @@
     <visual>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.010"/>
+        <sphere radius="${caster_wheel_radius}"/>
       </geometry>
       <material name="white"/>
     </visual>
@@ -241,7 +241,7 @@
     <collision>
       <origin rpy="0 1.5707 1.5707" xyz="0 0 0"/>
       <geometry>
-        <sphere radius="0.010"/>
+        <sphere radius="${caster_wheel_radius}"/>
       </geometry>
     </collision>
 

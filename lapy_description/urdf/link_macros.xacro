@@ -14,7 +14,8 @@
         </visual>
         <collision>
             <geometry>
-                <sphere radius="${wheel_radius}"/>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+               <!--  <sphere radius="${wheel_radius}"/> -->
             </geometry>
         </collision>
         <xacro:inertial_cylinder mass="${wheel_mass}" radius="${wheel_radius}" length="${wheel_thickness}" >

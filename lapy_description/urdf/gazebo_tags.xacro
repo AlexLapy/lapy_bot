@@ -65,11 +65,11 @@
       <joint_name>left_wheel_joint</joint_name>
       <joint_name>right_wheel_joint</joint_name>
       <joint_name>front_yaw_joint</joint_name>
-      <joint_name>back_yaw_joint</joint_name>
+   <!--    <joint_name>back_yaw_joint</joint_name> -->
       <joint_name>front_roll_joint</joint_name>
-      <joint_name>back_roll_joint</joint_name>
+      <!-- <joint_name>back_roll_joint</joint_name> -->
       <joint_name>front_pitch_joint</joint_name>
-      <joint_name>back_pitch_joint</joint_name>
+      <!-- <joint_name>back_pitch_joint</joint_name> -->
       
     </plugin>
   </gazebo>

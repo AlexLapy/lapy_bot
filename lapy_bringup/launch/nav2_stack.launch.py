@@ -15,8 +15,8 @@ def generate_launch_description():
     package_navigation = get_package_share_directory('lapy_navigation')
     package_mapper = get_package_share_directory('lapy_mapper')
 
-    map_choice = 'res_ets_save.yaml'
-    #map_choice = 'tb3_carto.yaml'
+    #map_choice = 'gazebo.yaml'
+    map_choice = 'tb3_carto.yaml'
 
     namespace = LaunchConfiguration('namespace')
     map_yaml_file = LaunchConfiguration('map')
@@ -28,8 +28,8 @@ def generate_launch_description():
     use_respawn = LaunchConfiguration('use_respawn')
     log_level = LaunchConfiguration('log_level')
 
-    filters_yaml = os.path.join(get_package_share_directory(
-        package_navigation),
+    filters_yaml = os.path.join(
+        package_navigation,
         'config',
         'filters.yaml'
     )
